@@ -45,15 +45,9 @@ public class PhotosActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
 
-                ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
-                lvPhotos.setAdapter(aPhotos);
-
-
-                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                setSupportActionBar(toolbar);
-
-                fetchPopularPhotos();
+                fetchTimelineAsync(0);
                 swipeContainer.setRefreshing(false);
+
             }
         });
         // Configure the refreshing colors
@@ -73,6 +67,49 @@ public class PhotosActivity extends AppCompatActivity {
         swipeContainer.setRefreshing(false);
 
 
+    }
+
+    public void fetchTimelineAsync(int page) {
+        // Send the network request to fetch the updated data
+        // `client` here is an instance of Android Async HTTP
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        String url = "https://api.instagram.com/v1/media/popular?client_id=" + CLIENT_ID;
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, new JsonHttpResponseHandler() {
+            public void onSuccess(JSONObject json) {
+                JSONArray photosJSON = null;
+
+                try {
+                    photosJSON = json.getJSONArray("data");
+
+                    for (int i = 0; i < photosJSON.length(); i++) {
+                        JSONObject photoJSON = photosJSON.getJSONObject(i);
+                        InstagramPhoto photo = new InstagramPhoto();
+                        photo.username = photoJSON.getJSONObject("user").getString("username");
+                        photo.caption = photoJSON.getJSONObject("caption").getString("text");
+                        photo.timeCreated = photoJSON.getJSONObject("caption").getLong("created_time");
+                        photo.imageUrl = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                        photo.imageHeight = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
+                        photo.likesCount = photoJSON.getJSONObject("likes").getInt("count");
+                        photo.profileUrl = photoJSON.getJSONObject("user").getString("profile_picture");
+                        photos.add(photo);
+                    }
+
+                } catch (JSONException e) {
+
+                }
+
+                swipeContainer.setRefreshing(false);
+            }
+
+            public void onFailure(Throwable e) {
+                Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+            }
+        });
     }
 
 

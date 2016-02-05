@@ -1,6 +1,7 @@
 package com.vimal.instagramviewer;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import org.ocpsoft.pretty.time.PrettyTime;
 
@@ -63,6 +65,14 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         tvTime.setText(prettyTime);
 
         Picasso.with(getContext()).load(photo.imageUrl).into(ivPhoto);
+
+//        Transformation transformation = new RoundedTransformationBuilder()
+//                .borderColor(Color.BLACK)
+//                .borderWidthDp(3)
+//                .cornerRadiusDp(30)
+//                .oval(false)
+//                .build();
+
         Picasso.with(getContext()).load(photo.profileUrl).into(ivProfilePhoto);
 
         return convertView;
