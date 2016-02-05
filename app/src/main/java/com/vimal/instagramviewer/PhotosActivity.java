@@ -3,6 +3,7 @@ package com.vimal.instagramviewer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,6 +28,8 @@ public class PhotosActivity extends AppCompatActivity {
     public static final String CLIENT_ID = "e05c462ebd86446ea48a5af73769b602";
     private ArrayList<InstagramPhoto> photos;
     private InstagramPhotosAdapter aPhotos;
+    private SwipeRefreshLayout swipeContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,31 @@ public class PhotosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photos);
         photos = new ArrayList<>();
         aPhotos = new InstagramPhotosAdapter(this, photos);
+
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
+                lvPhotos.setAdapter(aPhotos);
+
+
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+
+                fetchPopularPhotos();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
         lvPhotos.setAdapter(aPhotos);
 
@@ -42,8 +70,11 @@ public class PhotosActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fetchPopularPhotos();
+        swipeContainer.setRefreshing(false);
+
 
     }
+
 
     public void fetchPopularPhotos() {
 
@@ -68,6 +99,7 @@ public class PhotosActivity extends AppCompatActivity {
                         InstagramPhoto photo = new InstagramPhoto();
                         photo.username = photoJSON.getJSONObject("user").getString("username");
                         photo.caption = photoJSON.getJSONObject("caption").getString("text");
+                        photo.timeCreated = photoJSON.getJSONObject("caption").getLong("created_time");
                         photo.imageUrl = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
                         photo.imageHeight = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
                         photo.likesCount = photoJSON.getJSONObject("likes").getInt("count");
