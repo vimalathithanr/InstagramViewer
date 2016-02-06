@@ -48,7 +48,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         ivPhoto.setImageResource(0);
         ivProfilePhoto.setImageResource(0);
         tvUserName.setText(photo.username);
-        tvLikes.setText("Likes: " + String.valueOf(photo.likesCount));
+        tvLikes.setText(String.valueOf(photo.likesCount));
         tvComment1.setText(photo.comment[0]);
         tvComment2.setText(photo.comment[1]);
 
