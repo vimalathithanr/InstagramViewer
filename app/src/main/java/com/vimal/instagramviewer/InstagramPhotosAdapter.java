@@ -41,12 +41,18 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
         TextView tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
         TextView tvTime = (TextView) convertView.findViewById(R.id.tvTime);
+        TextView tvComment1 = (TextView) convertView.findViewById(R.id.tvComment1);
+        TextView tvComment2 = (TextView) convertView.findViewById(R.id.tvComment2);
 
         tvCaption.setText(photo.caption);
         ivPhoto.setImageResource(0);
         ivProfilePhoto.setImageResource(0);
         tvUserName.setText(photo.username);
         tvLikes.setText("Likes: " + String.valueOf(photo.likesCount));
+        tvComment1.setText(photo.comment[0]);
+        tvComment2.setText(photo.comment[1]);
+
+
 
         String prettyTimeString = new PrettyTime().format(new Date(photo.timeCreated * 1000));
         String prettyTime = null;
