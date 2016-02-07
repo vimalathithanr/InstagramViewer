@@ -1,7 +1,5 @@
 package com.vimal.instagramviewer;
 
-import java.util.ArrayList;
-
 /**
  * Created by FearMeNot on 2/2/2016.
  */

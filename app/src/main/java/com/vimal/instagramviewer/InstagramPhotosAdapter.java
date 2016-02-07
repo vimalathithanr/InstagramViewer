@@ -1,8 +1,6 @@
 package com.vimal.instagramviewer;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +9,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import org.ocpsoft.pretty.time.PrettyTime;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by FearMeNot on 2/2/2016.
  */
 public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
+
+    @Bind(R.id.tvCaption) TextView tvCaption;
+    @Bind(R.id.ivPhoto) ImageView ivPhoto;
+    @Bind(R.id.ivProfilePhoto) ImageView ivProfilePhoto;
+    @Bind(R.id.tvUserName) TextView tvUserName;
+    @Bind(R.id.tvLikes)TextView tvLikes;
+    @Bind(R.id.tvTime) TextView tvTime;
+    @Bind(R.id.tvComment1)TextView tvComment1;
+    @Bind(R.id.tvComment2)TextView tvComment2;
 
     public InstagramPhotosAdapter(Context context, List<InstagramPhoto> objects) {
         super(context, android.R.layout.simple_list_item_1, objects);
@@ -35,20 +43,13 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_photo, parent, false);
         }
 
-        TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
-        ImageView ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
-        ImageView ivProfilePhoto = (ImageView) convertView.findViewById(R.id.ivProfilePhoto);
-        TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
-        TextView tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
-        TextView tvTime = (TextView) convertView.findViewById(R.id.tvTime);
-        TextView tvComment1 = (TextView) convertView.findViewById(R.id.tvComment1);
-        TextView tvComment2 = (TextView) convertView.findViewById(R.id.tvComment2);
+        ButterKnife.bind(this, convertView);
 
         tvCaption.setText(photo.caption);
         ivPhoto.setImageResource(0);
         ivProfilePhoto.setImageResource(0);
         tvUserName.setText(photo.username);
-        tvLikes.setText(String.valueOf(photo.likesCount));
+        tvLikes.setText(String.valueOf(photo.likesCount) + " likes");
         tvComment1.setText(photo.comment[0]);
         tvComment2.setText(photo.comment[1]);
 
@@ -69,16 +70,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
 
 
         tvTime.setText(prettyTime);
-
         Picasso.with(getContext()).load(photo.imageUrl).into(ivPhoto);
-
-//        Transformation transformation = new RoundedTransformationBuilder()
-//                .borderColor(Color.BLACK)
-//                .borderWidthDp(3)
-//                .cornerRadiusDp(30)
-//                .oval(false)
-//                .build();
-
         Picasso.with(getContext()).load(photo.profileUrl).into(ivProfilePhoto);
 
         return convertView;
