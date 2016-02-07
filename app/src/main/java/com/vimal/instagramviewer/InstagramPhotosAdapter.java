@@ -70,7 +70,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
 
 
         tvTime.setText(prettyTime);
-        Picasso.with(getContext()).load(photo.imageUrl).into(ivPhoto);
+        Picasso.with(getContext()).load(photo.imageUrl).placeholder(R.drawable.placeholder).into(ivPhoto);
         Picasso.with(getContext()).load(photo.profileUrl).into(ivProfilePhoto);
 
         return convertView;

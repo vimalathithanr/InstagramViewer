@@ -48,7 +48,7 @@
         android:id="@+id/ivPhoto"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:minHeight="40dp"
+        android:minHeight="50dp"
         android:layout_below="@+id/ivProfilePhoto" />
 
     <ImageView
