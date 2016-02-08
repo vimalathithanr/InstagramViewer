@@ -32,7 +32,7 @@ The following **bonus** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://imgur.com/iEZKBhq' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/vimalathithanr/InstagramViewer/blob/master/InstagramViewer.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
