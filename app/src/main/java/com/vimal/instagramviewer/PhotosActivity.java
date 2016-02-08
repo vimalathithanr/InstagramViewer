@@ -95,7 +95,7 @@ public class PhotosActivity extends AppCompatActivity {
 
                         for (int j = photo.comment.length - 1; j >= 0; j--) {
                             JSONObject jsonData = jsonComments.getJSONObject(j);
-                            photo.comment[j] = jsonData.getJSONObject("from").getString("username") + " : " + jsonData.getString("text");
+                            photo.comment[j] = jsonData.getJSONObject("from").getString("username") + ": " + jsonData.getString("text");
                         }
 
                         photos.add(photo);

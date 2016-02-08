@@ -45,7 +45,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
 
         ButterKnife.bind(this, convertView);
 
-        tvCaption.setText(photo.caption);
+        tvCaption.setText(photo.username+ ": " +photo.caption);
         ivPhoto.setImageResource(0);
         ivProfilePhoto.setImageResource(0);
         tvUserName.setText(photo.username);
